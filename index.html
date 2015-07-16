@@ -20,9 +20,16 @@ main{
 .round .spacer{ flex-grow:1; }
 .round .spacer:first-child,
 .round .spacer:last-child{ flex-grow:.5; }
-
+/*
+          //if the bracket starts with x number matches then the game-spacer flex grow needs to be Y
+          // 2 = 2
+          // 4 = 2 // slightly off
+          // 6 = you can't have six, else the brackets don't match
+          // 8 = 2
+          seems like 2 will work okay for anything, don't use 1 which was from the original code
+          */
 .round .game-spacer{
-flex-grow:1;
+flex-grow:2;
 }
 
 /*
@@ -63,25 +70,60 @@ li.game{
       <script>
       $(function(){
           
-          var html = '<ul class="round round-1">';
-          html += '<li class="spacer">&nbsp;</li>';
-          html += '<li class="game game-top winner">Lousville <span>79</span></li>';
-		  html += '<li class="game game-spacer">&nbsp;</li>';
-		  html += '<li class="game game-bottom ">NC A&T <span>48</span></li>';
-          html += '</ul>';
-          html +='<ul class="round round-2">';
           
-           html +='<li class="spacer">&nbsp;</li>';
-		
-		 html +='<li class="game game-top winner">Lousville <span>72</span></li>';
-
-
-		 html +='<li class="spacer">&nbsp;</li>';
-          html +='</ul>';
-        
-        
-
+          var brackets = [
+            [
+                {team1:'Mets',team2:'Rangers',team1Points:1,team2Points:3},
+                {team1:'Astros',team2:'Twins',team1Points:1,team2Points:3},
+              {team1:'Mets',team2:'Rangers',team1Points:1,team2Points:3},
+                {team1:'Astros',team2:'Twins',team1Points:1,team2Points:3},
+                   {team1:'Mets',team2:'Rangers',team1Points:1,team2Points:3},
+                {team1:'Astros',team2:'Twins',team1Points:1,team2Points:3},
+              {team1:'Mets',team2:'Rangers',team1Points:1,team2Points:3},
+                {team1:'Astros',team2:'Twins',team1Points:1,team2Points:3}
+                 
+                
+                // the object holds info about the teams on on round bracket
+            ], // the first second level nested array represents the first round (all the way to the left)
+            [
+                {team1:'Mets',team2:'Astros',team1Points:1,team2Points:3},
+              {team1:'Astros',team2:'Twins',team1Points:1,team2Points:3},
+                {team1:'Mets',team2:'Astros',team1Points:1,team2Points:3},
+              {team1:'Astros',team2:'Twins',team1Points:1,team2Points:3}
+               
+            ] //put as many arrays as you want rounds, but it is up to you to make sure that rounds match up the number of teams
+            ,[
+            
+            {team1:'Astros',team2:'Twins',team1Points:1,team2Points:3},
+                {team1:'Astros',team2:'Twins',team1Points:1,team2Points:3}
+            ],[
+            
+            {team1:'Astros',team2:'Twins',team1Points:1,team2Points:3},
+              
+            ]
+          ];
           
+          
+          
+          var html = '';
+          var counter = 1;
+          for(var round in brackets){
+              html += '<ul class="round round-' + counter + '">';
+              for(var team in brackets[round]){
+                  var t =  brackets[round][team];
+                  html += '<li class="spacer">&nbsp;</li>';
+                  html += '<li class="game game-top winner">'  + t.team1  + ' <span>79</span></li>';
+                  html += '<li class="game game-spacer">&nbsp;</li>';
+                  html += '<li class="game game-bottom ">'  + t.team2  + '<span>48</span></li>';
+                  html += '<li class="spacer">&nbsp;</li>';
+              }
+              
+              html += '</ul>';
+              counter++;
+          }
+          
+          
+        
         $('#brackets').append(html);
       });
           
@@ -96,6 +138,7 @@ li.game{
 </main>
       
       
+<!--
 <main id="tournament">
 	<ul class="round round-1">
 		<li class="spacer">&nbsp;</li>
@@ -200,6 +243,7 @@ li.game{
 		<li class="spacer">&nbsp;</li>
 	</ul>		
 </main>
+-->
       
   </body>
 
