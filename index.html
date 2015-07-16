@@ -70,38 +70,78 @@ li.game{
       <script>
       $(function(){
           
+          /*
+          what would the data schema look like for this
+          you have many teams associate to a tournament
+          upon registration of appropriate number of teams, 2,4,8,16
+          -- or if you wanted to have some logic to determine what team has a  Bye
+          given that we ignore randomness
+          loop through teams in the tournament
+          add match objects for the first round
+          save
+          Match
+          -tournament ID
+          -team1 id
+          -team2 id
+          -round
           
-          var brackets = [
-            [
-                {team1:'Mets',team2:'Rangers',team1Points:1,team2Points:3},
-                {team1:'Astros',team2:'Twins',team1Points:1,team2Points:3},
-              {team1:'Mets',team2:'Rangers',team1Points:1,team2Points:3},
-                {team1:'Astros',team2:'Twins',team1Points:1,team2Points:3},
-                   {team1:'Mets',team2:'Rangers',team1Points:1,team2Points:3},
-                {team1:'Astros',team2:'Twins',team1Points:1,team2Points:3},
-              {team1:'Mets',team2:'Rangers',team1Points:1,team2Points:3},
-                {team1:'Astros',team2:'Twins',team1Points:1,team2Points:3}
-                 
-                
-                // the object holds info about the teams on on round bracket
-            ], // the first second level nested array represents the first round (all the way to the left)
-            [
-                {team1:'Mets',team2:'Astros',team1Points:1,team2Points:3},
-              {team1:'Astros',team2:'Twins',team1Points:1,team2Points:3},
-                {team1:'Mets',team2:'Astros',team1Points:1,team2Points:3},
-              {team1:'Astros',team2:'Twins',team1Points:1,team2Points:3}
-               
-            ] //put as many arrays as you want rounds, but it is up to you to make sure that rounds match up the number of teams
-            ,[
-            
-            {team1:'Astros',team2:'Twins',team1Points:1,team2Points:3},
-                {team1:'Astros',team2:'Twins',team1Points:1,team2Points:3}
-            ],[
-            
-            {team1:'Astros',team2:'Twins',team1Points:1,team2Points:3},
-              
-            ]
-          ];
+          
+          
+          all the rounds must be shown for the UI to appear properly
+          if there is no winner yet then just make the team name blank
+          there will be rounds = square root of total teams
+          16 - 4
+          8 - 3
+          
+          
+          */
+          var teams = [{name:'team1'},{name:'team2'},{name:'team3'},{name:'team4'},{name:'team5'},{name:'team6'},{name:'team7'},{name:'team8'}];
+          var matches = [];
+          var brackets = [];
+          
+          for(var i = 0; i < teams.length ; i+=2){
+            matches.push({team1:teams[i].name,team2:teams[i+1].name,team1Points:0,team2Points:0});
+          }
+          brackets.push(matches );
+          var addRounds = true;
+          var nextRound =  matches.length;
+          while(addRounds){
+            nextRound = nextRound /2;
+            if(nextRound <= 1){
+                addRounds = false;
+            }
+            brackets[brackets.length] = [];
+            for(var i = 0; i < nextRound ; i ++){
+                 brackets[brackets.length - 1].push({team1:'',team2:'',team1Points:1,team2Points:3}); 
+            }
+          
+          }
+          
+          
+//          var brackets = [
+//            [
+//                {team1:'Mets',team2:'Rangers',team1Points:1,team2Points:3},
+//                {team1:'Astros',team2:'Twins',team1Points:1,team2Points:3},
+//              {team1:'Mets',team2:'Rangers',team1Points:1,team2Points:3},
+//                {team1:'Astros',team2:'Twins',team1Points:1,team2Points:3},
+//         
+//                 
+//                
+//                // the object holds info about the teams on on round bracket
+//            ], // the first second level nested array represents the first round (all the way to the left)
+//            [
+//                {team1:'Mets',team2:'Astros',team1Points:1,team2Points:3},
+//              {team1:'Astros',team2:'Twins',team1Points:1,team2Points:3},
+//           
+//               
+//            ] //put as many arrays as you want rounds, but it is up to you to make sure that rounds match up the number of teams
+//            ,[
+//            
+//            {team1:'Astros',team2:'Twins',team1Points:1,team2Points:3},
+//              
+//            ]
+//            
+//          ];
           
           
           
